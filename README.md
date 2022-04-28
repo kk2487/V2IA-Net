@@ -1,5 +1,7 @@
 # Visible to Infrared Action Net (V2IA-Net)
 
+## Dependance version
+opencv-python 4.4.0.46
 ## VID Dataset
 
 ## Usage 
