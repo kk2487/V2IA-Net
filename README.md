@@ -3,6 +3,11 @@
 # V2IA-Net Structure
 ![DCL_m_Generator drawio](https://user-images.githubusercontent.com/35215838/165700320-a0b6fd80-f365-482f-83d7-30ec001bb91e.png)
 
+In this work, our code is developed based on [CLGAN](https://github.com/JunlinHan/DCLGAN).
+We modify the code { models/dcl_model.py, models/networks.py } to define new generator and loss of : 
+* class ResnetGenerator()
+* class DCLModel()
+
 ## System Structure 
 ![3-16_系統整合e](https://user-images.githubusercontent.com/35215838/165701268-fe84e2b6-601d-4bdb-bc31-475717781aeb.png)
 
