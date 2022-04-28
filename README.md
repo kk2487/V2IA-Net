@@ -24,6 +24,26 @@ B : Infrared image
     |--text_left
     |--text_right
 ```
-
+### Testing Set
+There are 9 night testing datasets and 9 daytime testing datasets
+```
+|--dataset
+  |--night_test_n1
+    |--drink
+    |--normal
+    |--talk_left
+    |--talk_right
+    |--text_left
+    |--text_right
+  ...
+  |--test_n1
+    |--drink
+    |--normal
+    |--talk_left
+    |--talk_right
+    |--text_left
+    |--text_right
+  ...
+```
 ## Acknowledgments
 Our code is developed based on [CLGAN](https://github.com/JunlinHan/DCLGAN)
