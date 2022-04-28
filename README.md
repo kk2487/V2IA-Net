@@ -66,7 +66,7 @@ B : Infrared image
     |--text_left
     |--text_right
 ```
-### Training
+### Train
 * open visdom server
 ```
 python -m visdom.server
@@ -103,5 +103,49 @@ There are 9 night testing datasets and 9 daytime testing datasets
     |--text_right
   ...
 ```
+### Test
+* Go to /V2IA-Net/V2IA-Net_distract/ folder
+* Download model weight
+```
+night_best.pth
+```
+[V2IA-Net](~) put in /V2IA-Net/V2IA-Net_distract/checkpoints/rgbir_DCL folder
+```
+20_net_G_A.pth
+20_net_G_B.pth
+```
+* Generate fake image
+```
+python test.py
+```
+* Action Accuracy Test
+```
+python test_acc.py
+```
+* Binary Accuracy Test
+```
+python test_dn_acc.py
+```
+### Video Test
+* Go to /V2IA-Net/V2IA-Net_distract/ folder
+* Download model weight
+
+[3d resnet50 + lstm](night_best.pth) put in /V2IA-Net/V2IA-Net_distract/ folder
+```
+night_best.pth
+```
+[V2IA-Net](~) put in /V2IA-Net/V2IA-Net_distract/checkpoints/rgbir_DCL folder
+```
+20_net_G_A.pth
+20_net_G_B.pth
+```
+* Start test
+```
+python video_stream.py
+```
+![image](https://user-images.githubusercontent.com/35215838/165754906-e5fb88e2-599d-4437-9723-06d219c91b15.png)
+
 ## Acknowledgments
 Our code is developed based on [CLGAN](https://github.com/JunlinHan/DCLGAN)
+
+In driver distraction detection system, we use [FacePose_pytorch](https://github.com/WIKI2020/FacePose_pytorch) to predict the three-axis angle of the face.
