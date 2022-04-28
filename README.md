@@ -1,7 +1,12 @@
 # Visible to Infrared Action Net (V2IA-Net)
+![DCL_m_Generator drawio](https://user-images.githubusercontent.com/35215838/165700320-a0b6fd80-f365-482f-83d7-30ec001bb91e.png)
 
-## Dependance version
-opencv-python 4.4.0.46
+## Dependency Package Version
+* cuda : 10.1
+* pytorch : 1.16.0
+* torchvision : 0.7.0
+* opencv-python : 4.4.0.46
+
 ## VID Dataset
 linker : /labshare/VID Dataset
 
