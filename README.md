@@ -15,9 +15,13 @@
 ## VID Dataset
 linker : /labshare/VID Dataset
 
+* video : Original video
+* label_for_V2IA-Net : Used for V2IA-Net
+* label_for_series_image : Divide data into action sequences (10 frames)
+
 ```
 |--VID Dataset
-  |--Video
+  |--video
     |--static.zip
     |--dynamic.zip
   |--label_for_V2IA-Net
