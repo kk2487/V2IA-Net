@@ -1,7 +1,7 @@
 # Visible to Infrared Action Net (V2IA-Net)
 
 # V2IA-Net Structure
-![DCL_m_Generator drawio](https://user-images.githubusercontent.com/35215838/165700320-a0b6fd80-f365-482f-83d7-30ec001bb91e.png)
+![DCL_m_Generator drawio](https://user-images.githubusercontent.com/35215838/165756609-898e3817-142e-4697-9ea1-422139cb19f6.png)
 
 In this work, our code is developed based on [CLGAN](https://github.com/JunlinHan/DCLGAN).
 We modify the code { models/dcl_model.py, models/networks.py } to define new generator and loss of : 
@@ -9,7 +9,7 @@ We modify the code { models/dcl_model.py, models/networks.py } to define new gen
 * class DCLModel()
 
 ## System Structure 
-![3-16_系統整合e](https://user-images.githubusercontent.com/35215838/165701268-fe84e2b6-601d-4bdb-bc31-475717781aeb.png)
+![3-16_系統整合e](https://user-images.githubusercontent.com/35215838/165756454-3a97a001-f40d-4e0b-bf6e-c2e67421781c.png)
 
 ## Dependency Package Version
 * cuda : 10.1
@@ -106,9 +106,7 @@ There are 9 night testing datasets and 9 daytime testing datasets
 ### Test
 * Go to /V2IA-Net/V2IA-Net_distract/ folder
 * Download model weight
-```
-night_best.pth
-```
+
 [V2IA-Net](~) put in /V2IA-Net/V2IA-Net_distract/checkpoints/rgbir_DCL folder
 ```
 20_net_G_A.pth
@@ -146,6 +144,6 @@ python video_stream.py
 ![image](https://user-images.githubusercontent.com/35215838/165754906-e5fb88e2-599d-4437-9723-06d219c91b15.png)
 
 ## Acknowledgments
-Our code is developed based on [CLGAN](https://github.com/JunlinHan/DCLGAN)
+Our code is developed based on [DCLGAN](https://github.com/JunlinHan/DCLGAN)
 
 In driver distraction detection system, we use [FacePose_pytorch](https://github.com/WIKI2020/FacePose_pytorch) to predict the three-axis angle of the face.
