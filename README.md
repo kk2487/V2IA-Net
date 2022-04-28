@@ -11,6 +11,10 @@
 * pytorch : 1.16.0
 * torchvision : 0.7.0
 * opencv-python : 4.4.0.46
+* dominate : 2.6.0
+* scipy : 1.5.4
+* visdom==0.1.8.9
+
 
 ## VID Dataset
 linker : /labshare/VID Dataset
@@ -56,6 +60,19 @@ B : Infrared image
     |--talk_right
     |--text_left
     |--text_right
+```
+### Training
+* open visdom server
+```
+python -m visdom.server
+```
+* open browser
+```
+http://localhost:8097/
+```
+* start training
+```
+python train.py --dataroot ./datasets/rgbir_new_dataset99 --name rgbir_DCL
 ```
 ### Testing Set
 linker : /labshare/VID Dataset/label_for_V2IA-Net/test_dataset.zip
