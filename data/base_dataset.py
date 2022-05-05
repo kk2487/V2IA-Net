@@ -78,8 +78,8 @@ def get_params(opt, size):
 
     return {'crop_pos': (x, y), 'flip': flip}
 
-
 def get_transform(opt, params=None, grayscale=True, method=Image.BICUBIC, convert=True):
+#def get_transform(opt, params=None, grayscale=False, method=Image.BICUBIC, convert=True):
     transform_list = []
     if grayscale:
         transform_list.append(transforms.Grayscale(1))

@@ -1,7 +1,8 @@
 import itertools
 import torch
 from .base_model import BaseModel
-from . import networks
+#from . import networks
+from . import networks_with_pretrain as networks
 from .patchnce import PatchNCELoss
 import util.util as util
 from util.image_pool import ImagePool
@@ -208,10 +209,15 @@ class DCLModel(BaseModel):
         label_dn = dn[self.label_A_dn.cpu()]
         out_dn = dn[self.predict_A_dn.argmax()]
 
-        #print(output)
         A_np = self.real_A.squeeze(0).squeeze(0).cpu().numpy()
+        # A_np = self.real_A.squeeze(0).cpu().numpy()
+        # A_np = (np.transpose(A_np, (1, 2, 0)) + 1) / 2.0 * 255.
+        # A_np = np.ascontiguousarray(A_np, dtype=np.uint8)
+        # A_np = cv2.cvtColor(A_np,cv2.COLOR_BGR2GRAY)
+
         #A_np = np.uint8(A_np)
-        cv2.rectangle(A_np, (0, 0), (80, 20), 0, -1, cv2.LINE_AA)
+        #print(A_np)
+        cv2.rectangle(A_np, (0, 0), (80, 20), (0), -1, cv2.LINE_AA)
         cv2.putText(A_np, label, (0, 10), cv2.FONT_HERSHEY_COMPLEX_SMALL, 0.6, (255), 1)
         cv2.rectangle(A_np, (0, 20), (80, 40), 255, -1, cv2.LINE_AA)
         cv2.putText(A_np, output, (0, 30), cv2.FONT_HERSHEY_COMPLEX_SMALL, 0.6, (0), 1)
@@ -326,6 +332,7 @@ class DCLModel(BaseModel):
         # src = real A
         # tgt = fake B
         n_layers = len(self.nce_layers)
+        #print(n_layers)
         feat_q = self.netG_B(tgt, self.nce_layers, encode_only=True) #拿取fake B特徵
         feat_k = self.netG_A(src, self.nce_layers, encode_only=True) #拿取real A特徵
 
