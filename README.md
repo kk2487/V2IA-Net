@@ -1,9 +1,13 @@
 # Visible to Infrared Action Net (V2IA-Net)
 
+In order to avoid distracted driving, this paper proposes a real-time driver distraction monitoring system. This system is divided into two main spindle, namely driver behavior analysis and head posture analysis. An action classification model is built by deep learning to identify the current driving action, and used to analyze the driver behavior; the angle of the driving head in the three-axis space is estimated by the key feature points. Angle change is evaluated and used to analysis head posture. Finally use the results of the two systems to conduct a comprehensive evaluation to determine whether there is a distraction behavior.
+
+Infrared cameras are rarely used in daily life, there are not enough datasets for development. In this paper, We collect a series of visible and infrared distraction image datasets,VID Dataset, and designs a translation models, V2I-Net, using unpaired image to train GAN model that can convert visible light images into infrared images. We also add a classification model structure to the generative network, improving the accuracy of the model through partial supervised learning. And at the same time, the model features are used to effectively extract the common features of visible images and infrared images, improve the accuracy of action recognition, and have better performance in driving behavior analysis.
+
 # V2IA-Net Structure
 ![DCL_m_Generator drawio](https://user-images.githubusercontent.com/35215838/165756609-898e3817-142e-4697-9ea1-422139cb19f6.png)
 
-In this work, our code is developed based on [CLGAN](https://github.com/JunlinHan/DCLGAN).
+In this work, our code is developed based on [DCLGAN](https://github.com/JunlinHan/DCLGAN).
 We modify the code { models/dcl_model.py, models/networks.py } to define new generator and loss of : 
 * class ResnetGenerator()
 * class DCLModel()
@@ -22,6 +26,8 @@ We modify the code { models/dcl_model.py, models/networks.py } to define new gen
 
 
 ## VID Dataset
+![image](https://user-images.githubusercontent.com/35215838/172050546-cf589bb3-0fbf-408d-b209-35361f278b0d.png)
+
 linker : /labshare/VID Dataset
 
 * video : Original video
@@ -107,7 +113,10 @@ There are 9 night testing datasets and 9 daytime testing datasets
 * Go to /V2IA-Net/V2IA-Net_distract/ folder
 * Download model weight
 
-[V2IA-Net](~) put in /V2IA-Net/V2IA-Net_distract/checkpoints/rgbir_DCL folder
+[V2IA-Net](~) 
+
+Put model weights into /V2IA-Net/V2IA-Net_distract/checkpoints/rgbir_DCL folder
+
 ```
 20_net_G_A.pth
 20_net_G_B.pth
@@ -128,11 +137,15 @@ python test_dn_acc.py
 * Go to /V2IA-Net/V2IA-Net_distract/ folder
 * Download model weight
 
-[3d resnet50 + lstm](night_best.pth) put in /V2IA-Net/V2IA-Net_distract/ folder
+[3d resnet50 + lstm](night_best.pth) 
+
+Put model weights into /V2IA-Net/V2IA-Net_distract/ folder
 ```
 night_best.pth
 ```
-[V2IA-Net](~) put in /V2IA-Net/V2IA-Net_distract/checkpoints/rgbir_DCL folder
+[V2IA-Net](~) 
+
+Put model weights into /V2IA-Net/V2IA-Net_distract/checkpoints/rgbir_DCL folder
 ```
 20_net_G_A.pth
 20_net_G_B.pth
