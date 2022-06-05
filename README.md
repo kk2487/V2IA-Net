@@ -47,6 +47,7 @@ linker : /labshare/VID Dataset
   |--label_for_V2IA-Net
     |--rgbir_new_dataset99.zip
     |--test_dataset.zip
+    |--dynamic_test_dataset.zip
   |--label_for_series_image
     |--daytime.zip
     |--night.zip
