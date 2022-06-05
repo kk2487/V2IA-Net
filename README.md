@@ -28,6 +28,11 @@ We modify the code { models/dcl_model.py, models/networks.py } to define new gen
 ## VID Dataset
 ![image](https://user-images.githubusercontent.com/35215838/172050546-cf589bb3-0fbf-408d-b209-35361f278b0d.png)
 
+### Dataset Description
+* This dataset is built with nighttime infrared images and daytime visible images of driver distraction.
+* There are six types of driving distractions. Drink、Normal、Talk left、Talk right、Text left、Text right.
+* The dataset contains six men and three women.
+
 linker : /labshare/VID Dataset
 
 * video : Original video
