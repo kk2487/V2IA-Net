@@ -2,7 +2,7 @@
 
 In order to avoid distracted driving, this paper proposes a **real-time driver distraction monitoring system**. This system is divided into two main spindle, namely driver behavior analysis and head posture analysis. An action classification model is built by deep learning to identify the current driving action, and used to analyze the driver behavior; the angle of the driving head in the three-axis space is estimated by the key feature points. Angle change is evaluated and used to analysis head posture. Finally use the results of the two systems to conduct a comprehensive evaluation to determine whether there is a distraction behavior.
 
-Infrared cameras are rarely used in daily life, there are not enough datasets for development. In this paper, We collect a series of visible and infrared distraction image datasets,**VID Dataset**, and designs a translation models, **V2IA-Net**, using unpaired image to train GAN model that can convert visible light images into infrared images. We also add a classification model structure to the generative network, improving the accuracy of the model through partial supervised learning. And at the same time, the model features are used to effectively extract the common features of visible images and infrared images, improve the accuracy of action recognition, and have better performance in driving behavior analysis.
+Infrared cameras are rarely used in daily life, there are not enough datasets for development. In this paper, We collect a series of visible and infrared distraction image datasets,**VID Dataset**, and designs a translation models, **V2IA-Net**, using unpaired image to train GAN model that can convert visible images into infrared images. We also add a classification model structure to the generative network, improving the accuracy of the model through partial supervised learning. And at the same time, the model features are used to effectively extract the common features of visible images and infrared images, improve the accuracy of action recognition, and have better performance in driving behavior analysis.
 
 # V2IA-Net Structure
 ![DCL_m_Generator drawio](https://user-images.githubusercontent.com/35215838/165756609-898e3817-142e-4697-9ea1-422139cb19f6.png)
@@ -15,6 +15,10 @@ We modify the code { models/dcl_model.py, models/networks.py } to define new gen
 
 ## System Structure 
 ![3-16_系統整合e](https://user-images.githubusercontent.com/35215838/165756454-3a97a001-f40d-4e0b-bf6e-c2e67421781c.png)
+
+We use the encoder of generator in V2IA-Net and combine the model with classifier in V2IA-Net to identify driving action categories.
+
+This method can effectively extract common features of visible images and infrared images and improve the accuracy of action recognition.
 
 ## Dependency Package Version
 * cuda : 10.1
@@ -33,6 +37,12 @@ We modify the code { models/dcl_model.py, models/networks.py } to define new gen
 * This dataset is built with nighttime infrared images and daytime visible images of driver distraction.
 * There are six types of driving distractions : Drink、Normal、Talk left、Talk right、Text left、Text right.
 * The dataset contains six men and three women.
+* There are two types of datasets, static data and dynamic data.
+* Static datasets contain training and testing data, collected while the vehicle is stationary.
+* Dynamic datasets contain only testing data, collected while the vehicle is moving.
+* Equipment is Garmin Dash Cam Tandem and placed on the upper right of the driver.
+
+### Dataset Download
 
 linker : /labshare/VID Dataset
 
