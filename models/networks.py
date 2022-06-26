@@ -7,10 +7,16 @@ from torch.optim import lr_scheduler
 import numpy as np
 from .stylegan_networks import StyleGAN2Discriminator, StyleGAN2Generator, TileStyleGAN2Discriminator
 from .attention_augmented_conv import AugmentedConv
+
+from torchvision import datasets, models, transforms
+import cv2
 ###############################################################################
 # Helper Functions
 ###############################################################################
 
+transform_rgb = transforms.Compose([
+                transforms.Lambda(lambda x: torch.cat([x, x, x], 1)),
+                 ])
 
 def get_filter(filt_size=3):
     if(filt_size == 1):
@@ -86,6 +92,7 @@ class Upsample(nn.Module):
         self.pad = get_pad_layer(pad_type)([1, 1, 1, 1])
 
     def forward(self, inp):
+        #print("------", inp.shape)
         ret_val = F.conv_transpose2d(self.pad(inp), self.filt, stride=self.stride, padding=1 + self.pad_size, groups=inp.shape[1])[:, :, 1:, 1:]
         if(self.filt_odd):
             return ret_val
@@ -972,29 +979,42 @@ class ResnetGenerator(nn.Module):
         #         nn.Conv2d(input_nc, ngf, kernel_size=7, padding=0, bias=use_bias),
         #         norm_layer(ngf),
         #         nn.ReLU(True)]
+        
+        # ------------------------------------- Using pretrain weight ---------------------------------
 
-        self.padding1 = nn.ReflectionPad2d(3)
-        self.conv1 = nn.Conv2d(input_nc, ngf, kernel_size=7, padding=0, bias=use_bias)
-        self.norm1 = norm_layer(ngf)
-        self.relu1 = nn.ReLU(True)
+        inception_v3 = models.inception_v3(pretrained=True)
+        #print(inception_v3.Conv2d_1a_3x3.conv.weight[0][0][0])
+        self.inception_conv0 = inception_v3.Conv2d_1a_3x3
+        # for param in self.inception_conv0.parameters():
+        #     param.requires_grad = False
+        self.inception_conv1 = inception_v3.Conv2d_2a_3x3
+        # for param in self.inception_conv1.parameters():
+        #     param.requires_grad = False
+        self.inception_conv2 = inception_v3.Conv2d_2b_3x3
+        # for param in self.inception_conv2.parameters():
+        #     param.requires_grad = False
+        self.maxpool1 = inception_v3.maxpool1
+        # for param in self.maxpool1.parameters():
+        #     param.requires_grad = False
 
+        self.inception_conv3 = inception_v3.Conv2d_3b_1x1
+        # for param in self.inception_conv3.parameters():
+        #     param.requires_grad = False
+        self.inception_conv4 = inception_v3.Conv2d_4a_3x3
+        # for param in self.inception_conv4.parameters():
+        #     param.requires_grad = False
+        self.maxpool2 = inception_v3.maxpool2
+        # for param in self.maxpool2.parameters():
+        #     param.requires_grad = False
+
+        self.padding = nn.ReflectionPad2d(2)
+        # for param in self.padding.parameters():
+        #     param.requires_grad = False
+        self.conv1 = nn.Conv2d(in_channels=192,out_channels=256,kernel_size=3,stride=1,padding=1)
+        # for param in self.conv1.parameters():
+        #     param.requires_grad = False
 
         n_downsampling = 2
-        down_model = []
-        for i in range(n_downsampling):  # add downsampling layers
-            mult = 2 ** i
-            if(no_antialias):
-                # default  no_antialias is True
-                down_model += [nn.Conv2d(ngf * mult, ngf * mult * 2, kernel_size=3, stride=2, padding=1, bias=use_bias),
-                          norm_layer(ngf * mult * 2),
-                          nn.ReLU(True)]
-            else:
-                down_model += [nn.Conv2d(ngf * mult, ngf * mult * 2, kernel_size=3, stride=1, padding=1, bias=use_bias),
-                          norm_layer(ngf * mult * 2),
-                          nn.ReLU(True),
-                          Downsample(ngf * mult * 2)]
-
-        self.down_model = nn.Sequential(*down_model)
 
         mult = 2 ** n_downsampling
         resnet = []
@@ -1003,56 +1023,64 @@ class ResnetGenerator(nn.Module):
             resnet += [ResnetBlock(ngf * mult, padding_type=padding_type, norm_layer=norm_layer, use_dropout=use_dropout, use_bias=use_bias)]
         
         self.resnet = nn.Sequential(*resnet)
-
+        # for param in self.resnet.parameters():
+        #     param.requires_grad = False
         # ---------------------------------------------------- for CNN Action recognition ----------------------------------------------------
-        
+       
+        # output = [1, 128, 32, 32]
+
         ar_block = []
 
         # size = (256, 64, 64)
-
         ar_block += [nn.Conv2d(in_channels=256,out_channels=128,kernel_size=3,stride=1,padding=1),
                     nn.ReLU(),
                     nn.MaxPool2d(kernel_size=2)
                     ]
         # size = (128, 32, 32)
-        ar_block += [nn.Conv2d(in_channels=128,out_channels=64,kernel_size=3,stride=1,padding=1),
-                    nn.ReLU(),
-                    nn.MaxPool2d(kernel_size=2)
-                    ]
+        # ar_block += [nn.Conv2d(in_channels=128,out_channels=64,kernel_size=3,stride=1,padding=1),
+        #             nn.ReLU(),
+        #             nn.MaxPool2d(kernel_size=2)
+        #             ]
         # size = (64, 16, 16)
-        ar_block += [nn.Conv2d(in_channels=64,out_channels=32,kernel_size=3,stride=1,padding=1),
+        ar_block += [nn.Conv2d(in_channels=128,out_channels=32,kernel_size=3,stride=1,padding=1),
                     nn.ReLU(),
                     nn.MaxPool2d(kernel_size=2)
                     ]
         # size = (32, 8, 8)
-
+        # size = (32, 16, 16)
         self.ar_block =  nn.Sequential(*ar_block)
+        #for param in self.ar_block.parameters():
+        #    param.requires_grad = False
 
         ar_fc_block = []
 
-        ar_fc_block += [nn.Linear(in_features=8 * 8 * 32,out_features=1024),
-                    nn.ReLU(),
-                    nn.Linear(in_features=1024,out_features=512),
-                    nn.ReLU()
+        ar_fc_block += [nn.Linear(in_features=16 * 16 * 32,out_features=1024),
+                    #nn.ReLU(),
+                    nn.Linear(in_features=1024,out_features=512)
+                    #nn.ReLU()
                     ]
         self.ar_fc_block =  nn.Sequential(*ar_fc_block)
-        
+        #for param in self.ar_fc_block.parameters():
+        #    param.requires_grad = False
         fc_block1 = []
 
         fc_block1 += [nn.Linear(in_features=512,out_features=6),
-                    nn.Softmax()
+                    nn.Softmax(dim=1)
                     ]
         self.fc_block1 =  nn.Sequential(*fc_block1)
-
+        #for param in self.fc_block1.parameters():
+        #    param.requires_grad = False
         fc_block2 = []
 
-        fc_block2 += [nn.Linear(in_features=512,out_features=64),
-                    nn.ReLU(),
-                    nn.Linear(in_features=64,out_features=2),
-                    nn.Softmax()
+        fc_block2 += [#nn.Linear(in_features=512,out_features=64),
+                    #nn.ReLU(),
+                    #nn.Linear(in_features=64,out_features=2),
+                    nn.Linear(in_features=512,out_features=2),
+                    nn.Softmax(dim=1)
                     ]
         self.fc_block2 =  nn.Sequential(*fc_block2)
-
+        #for param in self.fc_block2.parameters():
+        #    param.requires_grad = False
         #self.softmax = nn.Softmax()
         # ------------------------------------------------------------------------------------------------------------------------------------
         up_model = []
@@ -1074,46 +1102,76 @@ class ResnetGenerator(nn.Module):
                           norm_layer(int(ngf * mult / 2)),
                           nn.ReLU(True)]
         self.up_model = nn.Sequential(*up_model)
-
+        #for param in self.up_model.parameters():
+        #    param.requires_grad = False
         self.padding2 = nn.ReflectionPad2d(3)
+        #for param in self.padding2.parameters():
+        #    param.requires_grad = False
         self.conv2 = nn.Conv2d(ngf, output_nc, kernel_size=7, padding=0)
+        #for param in self.conv2.parameters():
+        #    param.requires_grad = False
         self.tan1 = nn.Tanh()
 
 
     def forward(self, input, layers=[], encode_only=False):
-        
+        #print(input.shape)
+        input = transform_rgb(input)
+        #print(input.shape)
+        #print(self.inception_conv0.conv.weight)
         if len(layers) > 0:
             feat = input
             feats = []
-            output = self.padding1(input)
+            output = self.inception_conv0(input)
+            output = self.inception_conv1(output)
+            output = self.inception_conv2(output)
+            output = self.maxpool1(output)
+            feats.append(output)
+            output = self.inception_conv3(output)
+            output = self.padding(output)
+            output = self.inception_conv4(output)
+            feats.append(output)
             output = self.conv1(output)
-            output = self.norm1(output)
-            output = self.relu1(output)
             feats.append(output)
-            output = self.down_model(output)
-            feats.append(output)
-            output = self.resnet(output)
-            feats.append(output)
-            output = self.up_model(output)
-            feats.append(output)
-            #output = self.padding2(output)
-            #output = self.conv2(output)
-            #output = self.tan1(output)
-            #print("----------", feat.shape, feats.shape)
+            #output = self.resnet(output)
+            #feats.append(output)
+
             return feats  # return both output and intermediate features
+        
         else:
-            output = self.padding1(input)
+        # self.inception_conv0 = inception_v3.Conv2d_1a_3x3
+        # self.inception_conv1 = inception_v3.Conv2d_2a_3x3
+        # self.inception_conv3 = inception_v3.Conv2d_2b_3x3
+
+        # self.maxpool1 = inception_v3.maxpool1
+
+        # self.inception_conv4 = inception_v3.Conv2d_3b_1x1
+        # self.inception_conv5 = inception_v3.Conv2d_4a_3x3
+        # self.maxpool2 = inception_v3.maxpool2
+
+            output = self.inception_conv0(input)
+            output = self.inception_conv1(output)
+            output = self.inception_conv2(output)
+            output = self.maxpool1(output)
+
+            #print(A_np.shape)
+
+            output = self.inception_conv3(output)
+            output = self.padding(output)
+            output = self.inception_conv4(output)
+            #print("-----",output.shape)
+
             output = self.conv1(output)
-            output = self.norm1(output)
-            output = self.relu1(output)
-            output = self.down_model(output)
+            #print("-----",output.shape)
+
             output = self.resnet(output)
+            #print("-----",output.shape)
 
             ar_in = output
+            # ar_in = [1, 256, 64, 64]
             #print("after resnet shape ", ar_in.shape)
             ar_out = self.ar_block(ar_in)
             #print("after ar_block ", ar_out.shape)
-            ar_out = ar_out.view(-1, 8 * 8 * 32)
+            ar_out = ar_out.view(-1, 16 * 16 * 32)
             ar_out = self.ar_fc_block(ar_out)
 
             output_ar = self.fc_block1(ar_out)
@@ -1124,6 +1182,7 @@ class ResnetGenerator(nn.Module):
             output = self.conv2(output)
             output_img = self.tan1(output)
 
+            #print(output_img.shape)
             #print("Action recognition", output_ar)
             #print("Distract recognition", output_dn)
             return output_img, output_ar, output_dn

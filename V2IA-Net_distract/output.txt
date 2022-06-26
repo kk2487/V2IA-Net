@@ -1,0 +1,255 @@
+--------------------------------------
+Test Path : ./test_dataset/test_n1/
+Test Time : 2022-06-26 19:50:38
+53 129 83 43 128 84 
+53 129 84 43 128 86 
+----------------Accuracy--------------
+drink:100.0%
+normal:100.0%
+talk_left:98.81%
+talk_right:100.0%
+text_left:100.0%
+text_right:97.67%
+Average Accuracy:99.43%
+--------------------------------------
+
+--------------------------------------
+Test Path : ./test_dataset/test_n2/
+Test Time : 2022-06-26 19:50:51
+35 123 45 53 106 54 
+37 158 45 53 107 54 
+----------------Accuracy--------------
+drink:94.59%
+normal:77.85%
+talk_left:100.0%
+talk_right:100.0%
+text_left:99.07%
+text_right:100.0%
+Average Accuracy:91.63%
+--------------------------------------
+
+--------------------------------------
+Test Path : ./test_dataset/test_n3/
+Test Time : 2022-06-26 19:51:08
+88 117 59 47 182 96 
+88 117 60 47 188 100 
+----------------Accuracy--------------
+drink:100.0%
+normal:100.0%
+talk_left:98.33%
+talk_right:100.0%
+text_left:96.81%
+text_right:96.0%
+Average Accuracy:98.17%
+--------------------------------------
+
+--------------------------------------
+Test Path : ./test_dataset/test_n4/
+Test Time : 2022-06-26 19:51:39
+123 189 162 114 343 156 
+124 189 162 114 343 156 
+----------------Accuracy--------------
+drink:99.19%
+normal:100.0%
+talk_left:100.0%
+talk_right:100.0%
+text_left:100.0%
+text_right:100.0%
+Average Accuracy:99.91%
+--------------------------------------
+
+--------------------------------------
+Test Path : ./test_dataset/test_n5/
+Test Time : 2022-06-26 19:52:11
+79 197 244 171 197 200 
+79 198 244 171 197 201 
+----------------Accuracy--------------
+drink:100.0%
+normal:99.49%
+talk_left:100.0%
+talk_right:100.0%
+text_left:100.0%
+text_right:99.5%
+Average Accuracy:99.82%
+--------------------------------------
+
+--------------------------------------
+Test Path : ./test_dataset/test_n6/
+Test Time : 2022-06-26 19:52:28
+98 129 55 64 123 126 
+102 129 55 64 123 126 
+----------------Accuracy--------------
+drink:96.08%
+normal:100.0%
+talk_left:100.0%
+talk_right:100.0%
+text_left:100.0%
+text_right:100.0%
+Average Accuracy:99.33%
+--------------------------------------
+
+--------------------------------------
+Test Path : ./test_dataset/test_n7/
+Test Time : 2022-06-26 19:52:44
+96 113 65 63 89 125 
+99 113 65 63 89 127 
+----------------Accuracy--------------
+drink:96.97%
+normal:100.0%
+talk_left:100.0%
+talk_right:100.0%
+text_left:100.0%
+text_right:98.43%
+Average Accuracy:99.1%
+--------------------------------------
+
+--------------------------------------
+Test Path : ./test_dataset/test_n8/
+Test Time : 2022-06-26 19:52:59
+58 114 78 102 60 80 
+59 114 78 102 62 80 
+----------------Accuracy--------------
+drink:98.31%
+normal:100.0%
+talk_left:100.0%
+talk_right:100.0%
+text_left:96.77%
+text_right:100.0%
+Average Accuracy:99.39%
+--------------------------------------
+
+--------------------------------------
+Test Path : ./test_dataset/test_n9/
+Test Time : 2022-06-26 19:53:14
+54 112 72 70 119 74 
+55 115 72 71 119 74 
+----------------Accuracy--------------
+drink:98.18%
+normal:97.39%
+talk_left:100.0%
+talk_right:98.59%
+text_left:100.0%
+text_right:100.0%
+Average Accuracy:99.01%
+--------------------------------------
+
+--------------------------------------
+Test Path : ./test_dataset/night_test_n1/
+Test Time : 2022-06-26 19:53:32
+52 125 67 66 125 159 
+52 129 67 67 148 161 
+----------------Accuracy--------------
+drink:100.0%
+normal:96.9%
+talk_left:100.0%
+talk_right:98.51%
+text_left:84.46%
+text_right:98.76%
+Average Accuracy:95.19%
+--------------------------------------
+
+--------------------------------------
+Test Path : ./test_dataset/night_test_n2/
+Test Time : 2022-06-26 19:53:45
+43 117 55 59 124 73 
+44 117 55 59 124 75 
+----------------Accuracy--------------
+drink:97.73%
+normal:100.0%
+talk_left:100.0%
+talk_right:100.0%
+text_left:100.0%
+text_right:97.33%
+Average Accuracy:99.37%
+--------------------------------------
+
+--------------------------------------
+Test Path : ./test_dataset/night_test_n3/
+Test Time : 2022-06-26 19:54:02
+69 166 60 73 115 98 
+73 169 62 73 115 98 
+----------------Accuracy--------------
+drink:94.52%
+normal:98.22%
+talk_left:96.77%
+talk_right:100.0%
+text_left:100.0%
+text_right:100.0%
+Average Accuracy:98.47%
+--------------------------------------
+
+--------------------------------------
+Test Path : ./test_dataset/night_test_n4/
+Test Time : 2022-06-26 19:54:28
+149 252 89 130 167 133 
+149 258 89 130 167 136 
+----------------Accuracy--------------
+drink:100.0%
+normal:97.67%
+talk_left:100.0%
+talk_right:100.0%
+text_left:100.0%
+text_right:97.79%
+Average Accuracy:99.03%
+--------------------------------------
+
+--------------------------------------
+Test Path : ./test_dataset/night_test_n5/
+Test Time : 2022-06-26 19:54:54
+102 123 171 149 206 140 
+109 124 171 149 211 140 
+----------------Accuracy--------------
+drink:93.58%
+normal:99.19%
+talk_left:100.0%
+talk_right:100.0%
+text_left:97.63%
+text_right:100.0%
+Average Accuracy:98.56%
+--------------------------------------
+
+--------------------------------------
+Test Path : ./test_dataset/night_test_n6/
+Test Time : 2022-06-26 19:55:11
+48 104 68 165 121 63 
+55 140 68 165 122 68 
+----------------Accuracy--------------
+drink:87.27%
+normal:74.29%
+talk_left:100.0%
+talk_right:100.0%
+text_left:99.18%
+text_right:92.65%
+Average Accuracy:92.07%
+--------------------------------------
+
+--------------------------------------
+Test Path : ./test_dataset/night_test_n7/
+Test Time : 2022-06-26 19:55:30
+52 88 85 79 137 219 
+53 88 85 79 137 220 
+----------------Accuracy--------------
+drink:98.11%
+normal:100.0%
+talk_left:100.0%
+talk_right:100.0%
+text_left:100.0%
+text_right:99.55%
+Average Accuracy:99.7%
+--------------------------------------
+
+--------------------------------------
+Test Path : ./test_dataset/night_test_n8/
+Test Time : 2022-06-26 19:55:50
+44 160 72 64 185 158 
+47 160 72 75 192 158 
+----------------Accuracy--------------
+drink:93.62%
+normal:100.0%
+talk_left:100.0%
+talk_right:85.33%
+text_left:96.35%
+text_right:100.0%
+Average Accuracy:97.02%
+--------------------------------------
+

@@ -8,7 +8,7 @@
                 direction: AtoB                          
           display_winsize: 256                           
                easy_label: experiment_name               
-                    epoch: 20                            
+                    epoch: 15                            
                      eval: False                         
         flip_equivariance: False                         
                   gpu_ids: 0                             
