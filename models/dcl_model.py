@@ -1,8 +1,8 @@
 import itertools
 import torch
 from .base_model import BaseModel
-from . import networks
-#from . import networks_with_pretrain as networks
+#from . import networks
+from . import networks_with_nonlocal as networks
 from .patchnce import PatchNCELoss
 import util.util as util
 from util.image_pool import ImagePool
@@ -287,8 +287,10 @@ class DCLModel(BaseModel):
         predict_A_i_dn = self.predict_A_i_dn  # G_A(B)
 
         #print(predict_A.shape, self.label_A.shape)
-        #print(predict_A)
-        #print("-------------------------",self.label_A)
+        
+        print("-------------------------",self.label_A)
+        print(predict_A)
+        print(predict_A_dn)
         #print(self.path_A)
         self.loss_AR = self.cnn_loss_function(predict_A, self.label_A) + self.cnn_loss_function(predict_B, self.label_B) \
                     + self.cnn_loss_function(predict_A_i, self.label_A) + self.cnn_loss_function(predict_B_i, self.label_B)

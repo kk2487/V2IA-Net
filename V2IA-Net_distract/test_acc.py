@@ -38,6 +38,10 @@ if __name__ == '__main__':
     # 讀取動作種類
     font = cv2.FONT_HERSHEY_SIMPLEX
     test_file_path = [
+    # "./test_dataset/rgbir_dataset76_daytime/",
+    # "./test_dataset/rgbir_dataset76_night/",
+    # "./dynamic_test_dataset/daytime_dynamic",
+    # "./dynamic_test_dataset/night_dynamic",
     "./test_dataset/test_n1/",
     "./test_dataset/test_n2/",
     "./test_dataset/test_n3/",
@@ -55,7 +59,12 @@ if __name__ == '__main__':
     "./test_dataset/night_test_n6/",
     "./test_dataset/night_test_n7/",
     "./test_dataset/night_test_n8/",
-    "./test_dataset/night_test_n9/"
+    "./test_dataset/night_test_n9/",
+    
+    "./test_dataset/rgbir_dataset76_daytime/",
+    "./test_dataset/rgbir_dataset76_night/",
+    "./dynamic_test_dataset/daytime_dynamic",
+    "./dynamic_test_dataset/night_dynamic"
     #"./test_dataset_o/test_1/",
     #"./test_dataset_o/test_2/",
     # "./test_dataset/test_3/",
@@ -85,6 +94,10 @@ if __name__ == '__main__':
     if cut_opt.eval:
         dcl_model.eval()
 
+    n_correct=0
+    n_num=0
+
+    confusion_matrix = np.zeros((6, 6))
     for t in tqdm(test_file_path): 
         act_dir = os.listdir(t)
 
@@ -116,7 +129,10 @@ if __name__ == '__main__':
                 data = {'A': dcl_transform(Image.fromarray(gray_frame)).unsqueeze(0),'B':ts_b, 'A_paths': ['doesnt_really_matter'], 'B_paths': ['doesnt_really_matter'], 'A_label':ts_b, 'B_label':ts_b} 
 
                 dcl_model.set_input(data)  # unpack data from data loader
+                #start = time.time()
                 dcl_model.test()           # run inference
+                #end = time.time()
+                #print(end-start)
                 visuals = dcl_model.get_current_visuals()  # get image results
 
                 # 拿取DCL模型動作預測結果
@@ -139,8 +155,10 @@ if __name__ == '__main__':
                 # image_c = cv2.resize(image_c, (1200,600))
                 if(str(gan_predict_output) == str(label)):
                     correct = correct + 1
-            
-
+                
+                i = classes.index(str(label))
+                j = classes.index(str(gan_predict_output))
+                confusion_matrix[i][j] = confusion_matrix[i][j] + 1
 
 
                 # cv2.imshow("image_c", image_c)
@@ -158,7 +176,8 @@ if __name__ == '__main__':
             all_correct = all_correct + correct_num[i]
         print("------------Average Accuracy----------")
         print(round(all_correct/all_total*100, 2), "%")
-
+        n_correct = n_correct + all_correct
+        n_num = n_num + all_total
         path = 'output.txt'
         with open(path, 'a') as f:
             
@@ -184,3 +203,10 @@ if __name__ == '__main__':
             f.write("Average Accuracy"+ ":" +str(round(all_correct/all_total*100, 2))+ "%\n")
             f.write('--------------------------------------\n')
             f.write('\n')
+
+        if(t == "./test_dataset/test_n9/" or t == "./test_dataset/night_test_n9/"):
+            print("---AVG---", n_correct/n_num)
+            n_correct=0
+            n_num=0
+
+    print(confusion_matrix)

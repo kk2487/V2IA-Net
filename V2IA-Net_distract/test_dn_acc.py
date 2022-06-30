@@ -55,7 +55,11 @@ if __name__ == '__main__':
     "./test_dataset/night_test_n6/",
     "./test_dataset/night_test_n7/",
     "./test_dataset/night_test_n8/",
-    "./test_dataset/night_test_n9/"
+    "./test_dataset/night_test_n9/",
+    "./test_dataset/rgbir_dataset76_daytime/",
+    "./test_dataset/rgbir_dataset76_night/",
+    "./dynamic_test_dataset/daytime_dynamic",
+    "./dynamic_test_dataset/night_dynamic",
     #"./test_dataset_o/test_1/",
     #"./test_dataset_o/test_2/",
     # "./test_dataset/test_3/",

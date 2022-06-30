@@ -53,7 +53,7 @@ nce_includes_all_negatives_from_minibatch: False
              no_antialias: False                         
           no_antialias_up: False                         
                no_dropout: True                          
-                  no_flip: False                         
+                  no_flip: True                          	[default: False]
                   no_html: False                         
                     normD: instance                      
                     normG: instance                      
