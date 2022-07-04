@@ -1017,7 +1017,7 @@ class ResnetGenerator(nn.Module):
         #     param.requires_grad = False
 
         #self.nonlocal = NLBlockND(in_channels=256, mode='concatenate', dimension=2, bn_layer=bn_layer)
-        self.nlb = NLBlockND(in_channels=256, dimension=2)
+        
         n_downsampling = 2
 
         mult = 2 ** n_downsampling
@@ -1056,6 +1056,7 @@ class ResnetGenerator(nn.Module):
         # size = (32, 16, 16)
         self.ar_block =  nn.Sequential(*ar_block)
         
+        self.nlb = NLBlockND(in_channels=32, dimension=2)
         #for param in self.ar_block.parameters():
         #    param.requires_grad = False
 
@@ -1170,8 +1171,6 @@ class ResnetGenerator(nn.Module):
             output = self.conv1(output)
             #print("-----",output.shape)
 
-            output = self.nlb(output)
-
             output = self.resnet(output)
             
             #print("-----",output.shape)
@@ -1180,7 +1179,7 @@ class ResnetGenerator(nn.Module):
             # ar_in = [1, 256, 64, 64]
             #print("after resnet shape ", ar_in.shape)
             ar_out = self.ar_block(ar_in)
-
+            ar_out = self.nlb(ar_out)
             
             #print("after ar_block ", ar_out.shape)
             ar_out = ar_out.view(-1, 16 * 16 * 32)
