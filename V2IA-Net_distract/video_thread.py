@@ -138,7 +138,7 @@ face = False
 
 def driverAction(mat, model):
 
-    #a_start = time.time()
+    a_start = time.time()
     gray_frame = cv2.cvtColor(mat,cv2.COLOR_BGR2GRAY)
     data = {'A': dcl_transform(Image.fromarray(gray_frame)).unsqueeze(0), 'A_paths': ['doesnt_really_matter']} 
     model.set_input(data)  # unpack data from data loader
@@ -149,18 +149,18 @@ def driverAction(mat, model):
 
     binaryType = model.get_predict()['predict_A_dn']
     binary_output = dn[binaryType.argmax()]
-    #a_end = time.time()
+    a_end = time.time()
     global distract_output
     global predict_dn_output
 
     distract_output = action_output
     predict_dn_output = binary_output
 
-    #print("driverAction : ", (a_end-a_start))
+    print("driverAction : ", (a_end-a_start))
 
 def headPosture(mat, faceModel, landmarkModel, trans):
 
-    #h_start = time.time()
+    h_start = time.time()
 
     image_bbox = faceModel.get_bbox(mat)
     face_x1 = image_bbox[0]
@@ -198,7 +198,7 @@ def headPosture(mat, faceModel, landmarkModel, trans):
         #cv2.circle(draw_mat,(int(face_x1 + x * ratio_w),int(face_y1 + y * ratio_h)), 2, (255, 0, 0), -1)
         i += 1
 
-    #h_end = time.time()
+    h_end = time.time()
 
     global face 
     if(face_w < 20 or face_h < 20):
@@ -212,7 +212,7 @@ def headPosture(mat, faceModel, landmarkModel, trans):
 
     global point_dict 
     point_dict = pointDict
-    #print("headPosture : ", (h_end-h_start))
+    print("headPosture : ", (h_end-h_start))
 
 if __name__ == '__main__':
 
@@ -294,7 +294,7 @@ if __name__ == '__main__':
         threadB.start()
         
         threadA.join()
-        #threadB.join()
+        threadB.join()
 
         cs.headpose.headpose_series(yaw, pitch, roll)
 

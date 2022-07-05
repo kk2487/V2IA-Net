@@ -1,4 +1,6 @@
 *.jpg
 *.png
 *.pth
+*.zip
 *.avi
+checkpoint/*
