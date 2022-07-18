@@ -277,6 +277,7 @@ if __name__ == '__main__':
 
     # 儲存結果影片
     videoWriter = cv2.VideoWriter("./result.avi",cv2.VideoWriter_fourcc('X','V','I','D'),fps,(width,height))
+    image_n = 0
 
     while(ret):
 
@@ -406,7 +407,9 @@ if __name__ == '__main__':
         
         cv2.imshow("draw_mat", draw_mat)
         videoWriter.write(draw_mat)
-
+        #if(full_clip==0):
+            #cv2.imwrite("result/"+str(image_n)+".jpg", draw_mat)
+            #image_n = image_n + 1
         if cv2.waitKey(1) == 27:
             cap.release()
             cv2.destroyAllWindows()
