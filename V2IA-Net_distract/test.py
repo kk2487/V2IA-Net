@@ -28,14 +28,6 @@ from FacePose_pytorch.dectect import AntiSpoofPredict
 from FacePose_pytorch.pfld.pfld import PFLDInference, AuxiliaryNet  
 from FacePose_pytorch.compute import find_pose, get_num
 
-from resnet_3d_old.opts import parse_opts
-from resnet_3d_old.mean import get_mean, get_std
-from resnet_3d_old.model_c import generate_model
-from resnet_3d_old.spatial_transforms_winbus import (
-    Compose, Normalize, RandomHorizontalFlip, ToTensor, RandomVerticalFlip, 
-    ColorAugment)
-from resnet_3d_old.temporal_transforms import LoopPadding, TemporalRandomCrop, TemporalCenterCrop
-
 import check_status as cs
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -74,17 +66,11 @@ if __name__ == '__main__':
     i = 0;
 
     img_list = os.listdir(input_path)
-    #print(img_list)
+    
     for file in tqdm(img_list):
 
         path = os.path.join(input_path, file)
-        #img = cv2.imread(file)
-
-
-        #draw_mat = frame.copy()
-
-        #gray_frame = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
-
+        
         data = {'A': cut_transform(Image.open(path).convert('RGB')).unsqueeze(0),'B':ts_b, 'A_paths': ['doesnt_really_matter'], 'B_paths': ['doesnt_really_matter']} 
 
         cut_model.set_input(data)  # unpack data from data loader

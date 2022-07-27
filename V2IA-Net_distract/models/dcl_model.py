@@ -1,8 +1,8 @@
 import itertools
 import torch
 from .base_model import BaseModel
-from . import networks_action_only as networks
-#from . import networks
+#from . import networks_action_only as networks
+from . import networks
 #from . import networks_with_nonlocal as networks
 #from . import networks_with_cbam as networks
 from .patchnce import PatchNCELoss

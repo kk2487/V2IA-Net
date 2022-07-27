@@ -38,10 +38,6 @@ if __name__ == '__main__':
     # 讀取動作種類
     font = cv2.FONT_HERSHEY_SIMPLEX
     test_file_path = [
-    # "./test_dataset/rgbir_dataset76_daytime/",
-    # "./test_dataset/rgbir_dataset76_night/",
-    # "./dynamic_test_dataset/daytime_dynamic",
-    # "./dynamic_test_dataset/night_dynamic",
     "./test_dataset/test_n1/",
     "./test_dataset/test_n2/",
     "./test_dataset/test_n3/",
@@ -65,19 +61,6 @@ if __name__ == '__main__':
     "./test_dataset/rgbir_dataset76_night/",
     "./dynamic_test_dataset/daytime_dynamic",
     "./dynamic_test_dataset/night_dynamic"
-    #"./test_dataset_o/test_1/",
-    #"./test_dataset_o/test_2/",
-    # "./test_dataset/test_3/",
-    # "./test_dataset/test_6/",
-    # "./test_dataset/test_7/",
-    # "./test_dataset/test_8/",
-    # "./test_dataset/test_9/",
-    # "./test_dataset/night_test_1/",
-    # "./test_dataset/night_test_2/",
-    # "./test_dataset/night_test_3/",
-    # "./test_dataset/night_test_4/",
-    # "./test_dataset/night_test_5/",
-    # "./test_dataset/night_test_6/"
     ]
 
     classes = read_classes('classes.txt')
